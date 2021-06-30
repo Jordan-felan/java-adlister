@@ -28,16 +28,9 @@ public class PageHitCounter extends HttpServlet {
         String title = "Total Number of Hits";
 
         if(request.getParameter("reset") != null) {
-            hitCount = 0;
-            out.println(
-                    "<html>\n" +
-                            "<head><title>" + title + "</title></head>\n" +
-                            "<body bgcolor = \"#f0f0f0\">\n" +
-                            "<h1 align = \"center\">" + title + "</h1>\n" +
-                            "<h2 align = \"center\">" + hitCount + "</h2>\n" +
-                            "</body> </html>"
-            );
-        }else {
+            hitCount = 1;
+
+        }
         out.println(
                 "<html>\n" +
                 "<head><title>" + title + "</title></head>\n" +
@@ -46,6 +39,7 @@ public class PageHitCounter extends HttpServlet {
                 "<h2 align = \"center\">" + hitCount + "</h2>\n" +
                 "</body> </html>"
       );
-    }
+
+
     }
 }

@@ -9,7 +9,7 @@ public class IncorrectServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         request.setAttribute("result", "INCORRECT");
-        request.getRequestDispatcher("/result.jsp").forward(request, response);
+        request.getRequestDispatcher("/results.jsp").forward(request, response);
     }
 
 }

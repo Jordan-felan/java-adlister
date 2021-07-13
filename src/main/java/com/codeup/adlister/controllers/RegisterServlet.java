@@ -14,6 +14,10 @@ import java.io.IOException;
 @WebServlet(name = "controllers.RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getSession().getAttribute("user") != null) {
+            response.sendRedirect("/profile");
+            return;
+        }
         request.getRequestDispatcher("/WEB-INF/register.jsp")
                 .forward(request, response);
     }
@@ -25,11 +29,12 @@ public class RegisterServlet extends HttpServlet {
             String passwordConfirm = request.getParameter("confirm_password");
 
             boolean inputHasErrors = username.isEmpty()
-                    || email.isEmpty()
-                    || password.isEmpty()
-                    || (! password.equals(passwordConfirm));
+                    && email.isEmpty()
+                    && password.isEmpty();
+            boolean passwordMatch = password.equals(passwordConfirm);
+            boolean actuallyAnEmail = email.contains("@");
 
-            if(inputHasErrors){
+            if(inputHasErrors && passwordMatch && actuallyAnEmail){
                 try {
                     response.sendRedirect("/register");
                 } catch (IOException e) {
@@ -38,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
         User userTest = DaoFactory.getUsersDao().findByUsername(username);
-        if(userTest.getUsername().equals(username)  && userTest.getEmail().equals(email)){
+        if(userTest.getUsername() == username){
             try {
                 response.sendRedirect("/register");
             } catch (IOException e) {
